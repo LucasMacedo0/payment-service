@@ -1,6 +1,7 @@
 package lucas.payment_service.adapter.output.persistence;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.Setter;
 import lucas.payment_service.domain.PaymentMethod;
 import lucas.payment_service.domain.PaymentStatus;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "payments_db")
+@Getter
 @Setter
 public class PaymentEntity {
 
@@ -32,13 +34,16 @@ public class PaymentEntity {
     @Column(name = "payment_method", nullable = false)
     private PaymentMethod method;
 
-
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "update_at", nullable = false)
-    private LocalDateTime updateAt;
-
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @Column(name = "idempotency_key", unique = true, nullable = false)
+    private String idempotencyKey;
+
+    @Column(name = "external_reference", nullable = false)
+    private String externalReference;
+
 }

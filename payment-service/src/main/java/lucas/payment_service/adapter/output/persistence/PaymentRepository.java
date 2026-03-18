@@ -7,4 +7,5 @@ import java.util.UUID;
 public interface PaymentRepository extends JpaRepository<PaymentEntity, UUID> {
 
 
+    boolean existsByIdempotencyKey(String idempotencyKey);
 }
