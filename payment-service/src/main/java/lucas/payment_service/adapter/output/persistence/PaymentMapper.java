@@ -2,6 +2,7 @@ package lucas.payment_service.adapter.output.persistence;
 
 import lucas.payment_service.domain.Payment;
 import lucas.payment_service.domain.request.CreatePaymentRequest;
+import lucas.payment_service.domain.response.PaymentResponse;
 
 public class PaymentMapper {
 
@@ -33,4 +34,17 @@ public class PaymentMapper {
         return entity;
     }
 
+    public static PaymentResponse toResponse(PaymentEntity entity) {
+
+        PaymentResponse response = new PaymentResponse();
+
+        response.setId(entity.getId());
+        response.setAmount(entity.getAmount());
+        response.setCurrency(entity.getCurrency());
+        response.setStatus(entity.getStatus());
+        response.setCreatedAt(entity.getCreatedAt());
+        response.setUpdatedAt(entity.getUpdatedAt());
+
+        return response;
+    }
 }

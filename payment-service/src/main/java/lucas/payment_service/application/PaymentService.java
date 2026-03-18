@@ -8,6 +8,7 @@ import lucas.payment_service.adapter.output.persistence.PaymentMapper;
 import lucas.payment_service.adapter.output.persistence.PaymentRepository;
 import lucas.payment_service.domain.PaymentStatus;
 import lucas.payment_service.domain.request.CreatePaymentRequest;
+import lucas.payment_service.domain.response.PaymentResponse;
 import lucas.payment_service.events.PaymentEventPublisher;
 import lucas.payment_service.port.input.PaymentServiceInput;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,14 @@ public class PaymentService implements PaymentServiceInput {
         payment.setId(entity.getId());
 
         eventPublisher.publishPaymentCreated(payment); // um evento do tipo "pagamento foi criado" não decide o que fazer, só avisa.
+    }
+
+    @Override
+    public PaymentResponse getPaymentById(UUID id) {
+        var entity = paymentRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Payment not found"));
+
+        return PaymentMapper.toResponse(entity);
     }
 
     @Transactional
